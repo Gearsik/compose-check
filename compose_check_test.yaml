@@ -4,6 +4,8 @@ services:
     image: nginx:1.30.5
     ports:
       - '8080:80'
+    volumes:
+      - ./nginx/nginx-data:/var/lib/nginx/nginx-data:ro
   
   nginx2:
     image: nginx:1.30.5
