@@ -1,3 +1,11 @@
 services:
-  nginx:
+
+  nginx1:
     image: nginx:1.30.5
+    ports:
+      - '8080:80'
+  
+  nginx2:
+    image: nginx:1.30.5
+    ports:
+      - '8080:80'
