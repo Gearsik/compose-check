@@ -1,0 +1,11 @@
+repos:
+  - repo: local
+    hooks:
+      - id: compose-check-tests
+        name: Run ComposeCheck tests
+        entry: python -m pytest -q
+        language: python
+        additional_dependencies:
+          - pytest
+          - PyYAML
+        pass_filenames: false
