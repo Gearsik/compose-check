@@ -34,7 +34,7 @@ Initially, if the user supplied a file which did not exist, Python returned a fu
 
 Another interesting case was an empty file or a YAML file without a top-level `services` section. Neither of these situations necessarily produces invalid YAML, so they had to be checked separately after parsing. This is where I used `isinstance()` and a key check to make sure the data had the minimum structure required by the rest of the program.
 
-Exit codes were also a newer practical concept for me. I had used `sys` before, but not specifically `sys.exit(0)` and `sys.exit(1)` to tell another process whether something succeeded or failed. At first these values are almost invisible to the person running the command unless they check them, however later they became much more important because the pre-commit automation could use the same result to decide whether a commit should continue.
+This also showed me why exit codes are useful when command-line tools are later incorporated into automated workflows. The current pre-commit hook runs pytest rather than ComposeCheck directly, but follows the same principle of using a process exit status to determine whether the next step should continue.
 
 ## Paths and environment variables
 
@@ -63,7 +63,7 @@ if __name__ == "__main__":
 
 I had seen this structure plenty of times before, but I have to admit that I had never really needed to think much about why it exists. Once I started importing ComposeCheck functions into the test file, the reason became much clearer. Without the `main()` guard, importing the file would also run the command-line argument parsing. Moving that workflow into `main()` meant the functions could be imported and tested on their own.
 
-In the end, I kept eight automated tests. They cover both successful and unsuccessful examples for each of the three main checks, as well as invalid YAML handling. On top of that, I manually tested cases such as missing files, missing `services` sections and the final exit codes.
+In the end, I kept eight automated tests. They cover both successful and unsuccessful examples for each of the three main checks, as well as handling a missing `services` section. On top of that, I manually tested cases such as missing files, missing `services` and the final exit codes.
 
 ## Pre-commit automation
 

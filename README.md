@@ -29,7 +29,9 @@ For example:
 python compose_check.py compose_check_test.yaml
 ```
 
-If all checks pass, the program exits with status code `0`. If a problem is found, or the supplied file cannot be loaded correctly, it exits with status code `1`. I should mention that these exit codes are mainly intended for automation, such as the pre-commit hook, rather than being displayed directly to the user.
+Note: `compose_check_test.yaml` is included as a simple test file. It references a local `./nginx` bind-mount path and a `${DB_PASSWORD}` environment variable, neither of which is included in the repository. To make the sample pass all checks, create the required `nginx` directory and provide `DB_PASSWORD` either in the current shell or in a local `.env` file.
+
+If all checks pass, the program exits with status code `0`. If a problem is found, or the supplied file cannot be loaded correctly, it exits with status code `1`. These exit codes are mainly intended for automation or scripting rather than being displayed directly to the user.
 
 ## How it works
 
@@ -47,7 +49,7 @@ The project includes automated tests written with pytest:
 pytest
 ```
 
-The current test set covers successful and unsuccessful cases for the three main checks, as well as invalid YAML handling.
+The current test set covers successful and unsuccessful cases for the three main checks, as well as missing `services` section handling.
 
 A pre-commit hook is also included. Before a commit is accepted, the hook automatically runs the full pytest test suite. If any test fails, the commit is blocked until the problem is corrected.
 
