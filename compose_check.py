@@ -38,7 +38,7 @@ def check_duplicate_ports(compose_data):
                 current_port = port_mapping[0]
 
                 if current_port in host_ports:
-                    print('duplicate host ports on 2 different services, please pick unique host port numbers')
+                    print(f'ERROR: Duplicate host port detected: {current_port}')
                     check_passed = False
                 else:
                     host_ports.add(current_port)
@@ -59,7 +59,7 @@ def check_bind_mounts(compose_data, compose_path):
                 full_path = compose_path.parent / bind_path
 
                 if volumes_path.startswith(('./', '../')) and not full_path.exists():
-                    print('the path file doesnt exist or the path is incorrect')
+                    print(f'ERROR: Bind mount source does not exist: {full_path}')
                     bind_mounts_ok = False
 
     return bind_mounts_ok
@@ -92,11 +92,11 @@ def check_env_var(compose_data, compose_path):
                                         found = True
 
                                 if not found:
-                                    print(f'The file is missing environment variable: {env_value}')
+                                    print(f'ERROR: Missing environment variable: {env_value}')
                                     env_var_ok = False
 
                         else:
-                            print(f'Missing environment variable: {env_value} (.env file not found)')
+                            print(f'ERROR: Missing environment variable: {env_value} (.env file not found)')
                             env_var_ok = False
 
     return env_var_ok
